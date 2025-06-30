@@ -1,5 +1,6 @@
 # --- Build Stage ---
-FROM rust:1.85-slim AS builder
+# FROM rust:1.85-slim AS builder
+FROM registry.cn-hangzhou.aliyuncs.com/dcdxf/rust:1.85-slim
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -27,11 +28,11 @@ RUN cargo build --release --locked
 ####################################################################################################
 # # Start a new stage to create a smaller image without unnecessary build dependencies.
 # Use a minimal base image (distroless, alpine, scratch, etc.).
-FROM gcr.io/distroless/cc
+# FROM gcr.io/distroless/cc
 
-WORKDIR /app
+# WORKDIR /app
 
 # Copy the compiled binary from the builder stage.
-COPY --from=builder /app/target/release/nexus-network .
+# COPY --from=builder /app/target/release/nexus-network .
 
 ENTRYPOINT ["./nexus-network"]
